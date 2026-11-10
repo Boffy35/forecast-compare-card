@@ -1,0 +1,38 @@
+# Compares several solar forecasts, captured at 04:00, against the actual
+# generation for the day, read at 22:00 (as in the screenshot).
+#
+# Solcast stores its estimates as attributes of one sensor, so the same entity
+# appears three times with a different attribute each time.
+# Change the entity IDs to your own.
+
+type: custom:forecast-compare-card
+title: Forecast vs actual
+main_entity: sensor.solis_pv_today_energy_generation
+main_name: Solar Combined
+main_calc: movement        # count what the meter generated each day
+snapshot_time: '04:00:00'  # read the forecasts before sunrise
+main_time: '22:00:00'      # read the actual after sunset
+days: 9
+decimals: 1
+delta_mode: absolute
+show_main_row: true
+color_deltas: false
+newest_first: true
+highlight_closest: true
+grid_options:
+  columns: full
+  rows: auto
+entities:
+  - entity: sensor.solcast_pv_forecast_forecast_today
+    attribute: estimate10
+    name: Solcast Estimate (10)
+  - entity: sensor.solcast_pv_forecast_forecast_today
+    attribute: estimate
+    name: Solcast Estimate
+  - entity: sensor.solcast_pv_forecast_forecast_today
+    attribute: estimate90
+    name: Solcast Estimate (90)
+  - entity: sensor.home_energy_production_today
+    name: Open-Meteo
+  - entity: sensor.forecast_solar_combined
+    name: Forecast.Solar
